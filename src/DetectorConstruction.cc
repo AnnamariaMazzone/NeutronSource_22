@@ -296,8 +296,8 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
    
     //il cilindro rivelatore è sostituito con due piani
     G4double screenDimy=fDetThickness;
-    G4double screenDimx=40*cm;
-    G4double screenDimz=40*cm;
+    G4double screenDimx=8*cm;
+    G4double screenDimz=50*cm;
     G4double distanza_det=10*cm;
    G4Box* screenC1 = new G4Box("Screen1",                                    //name
                                     0.5*screenDimx,0.5*screenDimy,0.5*screenDimz);
