@@ -58,7 +58,7 @@ FileReader* PrimaryGeneratorAction::fileReader = 0;
 PrimaryGeneratorAction::PrimaryGeneratorAction(DetectorConstruction* det)
 : G4VUserPrimaryGeneratorAction(), fParticleGun(0), fDetector(det)
 {
-    G4String fileName="/Users/annamaria/lavoro/X17/NeutronSource_22/e_0.347_S+_17.0_0.86.txt";
+    G4String fileName="/Users/annamaria/lavoro/X17/NeutronSource_22/e_0.347_V_17.0_0.00256.txt";
     G4AutoLock lock(&PrimGenMutex);
     if( !fileReader ) fileReader = new FileReader(fileName);
     G4int n_particle = 1;

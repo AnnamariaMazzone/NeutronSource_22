@@ -7,7 +7,7 @@
 /run/verbose 1
 #
 /testhadr/det/setDetMat EJ-200
-/testhadr/det/setAbsorMat Helium3
+/testhadr/det/setAbsorMat Air
 /testhadr/det/setContMat CarbonFiber
 /testhadr/det/setLayerMat G4_MYLAR
 
@@ -17,7 +17,7 @@
 /testhadr/det/setContLength 1.46 cm # 4-2*1.27
 
 #/testhadr/det/setLayerThick 0.06 mm  al momento non è usato
-/testhadr/det/setDetThick  1 cm  #1.4 mm
+/testhadr/det/setDetThick  2 cm  
 
 #
 /run/initialize
@@ -26,7 +26,7 @@
 #
 #
 /control/alias pi 3.141592653589793
-/analysis/setFileName canc2
+/analysis/setFileName IM_X17v_EJ200_Air_1
 #/analysis/h1/set 1  100  0. 40.  MeV #protons
 #/analysis/h1/set 7  100  0. 40.  MeV #protons
 /analysis/h1/set 14  100  0 {pi} none    # Open Angle (rad)//* E gamma (MeV)

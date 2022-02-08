@@ -143,7 +143,7 @@ void DetectorConstruction::DefineMaterials()
     // helium 3 material gas
     // Density at 21.1°C (70°F) ad 1 atm: 0.1650 kg/m3
          // G4double density =  1.65*mg/cm3;//0.17850*mg/cm3;//0.00049*g/cm3;
-    G4double pressure = 30*bar;
+    G4double pressure = 5*bar;
     G4double molar_constant = Avogadro*k_Boltzmann;  //from clhep
     G4double temperature = 300*kelvin;
     
@@ -156,6 +156,18 @@ void DetectorConstruction::DefineMaterials()
     He3->AddIsotope(he3,100*perCent);
     G4Material* He3_30bar = new G4Material("Helium3", density, 1,kStateGas, temperature,pressure);
     He3_30bar->AddElement(He3, 100*perCent);
+    
+    atomicMass = 4,002602*g/mole;
+    G4Isotope* he4 = new G4Isotope("He4",2,4,atomicMass);
+    G4Element* He4 = new G4Element("helium4","He4",1);
+    He4->AddIsotope(he4,100*perCent);
+    pressure    = 5.*bar;
+    temperature = 300*kelvin;
+    density=(atomicMass*pressure)/(temperature*molar_constant);
+    //    density     = 27.*mg/cm3;a pressione atmosferica
+    G4Material* He4_bar = new G4Material("Helium4", density, ncomponents=1,
+                                         kStateGas,temperature,pressure);
+    He4_bar->AddElement(He4, 100*perCent);
     
     atomicMass = 15.99* g/mole;//massa molare)
     density=(atomicMass*pressure)/(temperature*molar_constant);
@@ -259,10 +271,10 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
 //    G4double AbsorRadius = fContainerRadius-fContainThickness;//fAbsorRadius + fContainThickness;
 //    G4double AbsorRadiusTappo = fContainerRadius-fContainTappoThickness;//fAbsorRadius + fContainThickness;
     G4double AbsorLength = fContainerLength;//-2*fContainThickness;//fAbsorLength + 2*fContainThickness;
-    G4double ScreenLength = 40*cm;
+    G4double screenDimz=50*cm;
     G4double ScreenRadius = 5*cm;
-  G4double WorldSizeXY = 2.*ScreenLength;//;2.*2*(ScreenRadius+fDetThickness);
-  G4double WorldSizeZ  = 2.*ScreenLength;
+  G4double WorldSizeXY = 2.*screenDimz;//;2.*2*(ScreenRadius+fDetThickness);
+  G4double WorldSizeZ  = 2.*screenDimz;
   
   // World
   //
@@ -284,7 +296,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
                             0,true);                         //copy number
     
 //    // Screen volume
-//    G4Tubs* screenC1 = new G4Tubs("Screen1", ScreenRadius, ScreenRadius+fDetThickness, 0.5*ScreenLength, 0., twopi);
+//    G4Tubs* screenC1 = new G4Tubs("Screen1", ScreenRadius, ScreenRadius+fDetThickness, 0.5*screenDimz, 0., twopi);
 //    fLDet = new G4LogicalVolume(screenC1, fDetMaterial , "ScreenLV");
 //
 //    new G4PVPlacement(0, G4ThreeVector(),
@@ -297,7 +309,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
     //il cilindro rivelatore è sostituito con due piani
     G4double screenDimy=fDetThickness;
     G4double screenDimx=8*cm;
-    G4double screenDimz=50*cm;
+//    G4double screenDimz=50*cm;
     G4double distanza_det=10*cm;
    G4Box* screenC1 = new G4Box("Screen1",                                    //name
                                     0.5*screenDimx,0.5*screenDimy,0.5*screenDimz);
