@@ -106,7 +106,7 @@ PrimaryGeneratorAction::PrimaryGeneratorAction(DetectorConstruction* det)
             G4double phi = twopi*G4UniformRand();
             G4double ux = R_rnd*std::cos(phi),
             uy = R_rnd*std::sin(phi);
-            fParticleGun->SetParticlePosition(G4ThreeVector(ux,uy,uz));
+//            fParticleGun->SetParticlePosition(G4ThreeVector(ux,uy,uz));
         }
         else //se sono nelle calotte
         {
@@ -121,7 +121,7 @@ PrimaryGeneratorAction::PrimaryGeneratorAction(DetectorConstruction* det)
             G4double phi      = twopi*G4UniformRand();  //phi uniform in [0, 2pi]
             G4ThreeVector ur(R_rnd*sinTheta*std::cos(phi),R_rnd*sinTheta*std::sin(phi),R_rnd*cosTheta+halfLenghtCont);
             
-            fParticleGun->SetParticlePosition(ur);
+//            fParticleGun->SetParticlePosition(ur);
         }
         G4ParticleDefinition* particle2
         = G4ParticleTable::GetParticleTable()->FindParticle("e+");

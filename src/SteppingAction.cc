@@ -128,7 +128,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
         analysisManager->FillH1(16,angleE);
 //        //prendo la posizione sul det
 //        G4ThreeVector pos = aStep->GetPreStepPoint()->GetPosition();
-        G4String nomefile="IM&Y_X17v_EJ200_Air_3bar_1";
+        G4String nomefile="canc";
         G4double Y=0;
         if(particle->GetParticleName()=="e+")
             Y=(energy-E_saved[index])/(E_saved[index]+energy);

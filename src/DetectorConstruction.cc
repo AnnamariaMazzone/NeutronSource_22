@@ -272,7 +272,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
 //    G4double AbsorRadiusTappo = fContainerRadius-fContainTappoThickness;//fAbsorRadius + fContainThickness;
     G4double AbsorLength = fContainerLength;//-2*fContainThickness;//fAbsorLength + 2*fContainThickness;
     G4double screenDimz=50*cm;
-    G4double ScreenRadius = 5*cm;
+    G4double ScreenRadius = 6*cm;
   G4double WorldSizeXY = 2.*screenDimz;//;2.*2*(ScreenRadius+fDetThickness);
   G4double WorldSizeZ  = 2.*screenDimz;
   
@@ -295,39 +295,23 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
                             false,                      //no boolean operation
                             0,true);                         //copy number
     
-//    // Screen volume
-//    G4Tubs* screenC1 = new G4Tubs("Screen1", ScreenRadius, ScreenRadius+fDetThickness, 0.5*screenDimz, 0., twopi);
-//    fLDet = new G4LogicalVolume(screenC1, fDetMaterial , "ScreenLV");
-//
-//    new G4PVPlacement(0, G4ThreeVector(),
-//                      fLDet, "Screen", lWorld, false, 0, 0);
-//    G4VisAttributes* screenVisAtt = new G4VisAttributes( G4Colour(0,0,1) );
-//    screenVisAtt -> SetForceSolid();
-//    fLDet->SetVisAttributes( screenVisAtt );
+    // Screen volume
+    G4VSolid* screenC1 =
+         new G4Sphere("Screen1",
+                      ScreenRadius, ScreenRadius+fDetThickness,        // inner & outer radius
+                                        0.0 * deg, 360.0 *deg,  // segment angles phi
+                                        0.0 * deg, 180.0 *deg);
+    
+    fLDet = new G4LogicalVolume(screenC1, fDetMaterial , "ScreenLV");
+
+    new G4PVPlacement(0, G4ThreeVector(),
+                      fLDet, "Screen", lWorld, false, 0, 0);
+    G4VisAttributes* screenVisAtt = new G4VisAttributes( G4Colour(0,0,1) );
+    screenVisAtt -> SetForceWireframe();
+    fLDet->SetVisAttributes( screenVisAtt );
 //    fLDet->SetVisAttributes( G4VisAttributes::GetInvisible() );
    
-    //il cilindro rivelatore è sostituito con due piani
-    G4double screenDimy=fDetThickness;
-    G4double screenDimx=8*cm;
-//    G4double screenDimz=50*cm;
-    G4double distanza_det=10*cm;
-   G4Box* screenC1 = new G4Box("Screen1",                                    //name
-                                    0.5*screenDimx,0.5*screenDimy,0.5*screenDimz);
-    G4Box* screenC2 = new G4Box("Screen2",                                    //name
-                                    0.5*screenDimx,0.5*screenDimy,0.5*screenDimz);
-    G4ThreeVector TransScreen(0, distanza_det+screenDimy, 0);
-    G4RotationMatrix RotScreen(0,0,0);
-    G4Transform3D trScrenn(RotScreen, TransScreen);
-    G4UnionSolid* screen=new G4UnionSolid("screen_tot", screenC1, screenC2, trScrenn);
-    fLDet = new G4LogicalVolume(screen, fDetMaterial , "ScreenLV");
-//    G4RotationMatrix *RotScreentot= new G4RotationMatrix(0,90,0);
-
-        new G4PVPlacement(0,-TransScreen/2.,
-                          fLDet, "Screen", lWorld, false, 0, 0);
-        G4VisAttributes* screenVisAtt = new G4VisAttributes( G4Colour(0,0,1) );
-        screenVisAtt -> SetForceSolid();
-        fLDet->SetVisAttributes( screenVisAtt );
-//        fLDet->SetVisAttributes( G4VisAttributes::GetInvisible() );
+   
     
   // Container
   //
@@ -363,14 +347,14 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
                        G4ThreeVector(),                //at (0,0,0)
                        fLContain,                      //logical volume
                        fContainMaterial->GetName(),    //name
-                       lWorld,                         //mother  volume
+                             lWorld,                         //mother  volume
                        false,                          //no boolean operation
                        0,true);                             //copy number
-//    G4VisAttributes* contVisAtt = new G4VisAttributes( G4Colour(0,1,1) );
-//    //contVisAtt -> SetForceWireframe( false );
-//    contVisAtt -> SetForceSolid();
-//    fLContain->SetVisAttributes( contVisAtt );
-    fLContain->SetVisAttributes(G4VisAttributes::GetInvisible());
+    G4VisAttributes* contVisAtt = new G4VisAttributes( G4Colour(0,1,1) );
+    //contVisAtt -> SetForceWireframe( false );
+    contVisAtt -> SetForceSolid();
+    fLContain->SetVisAttributes( contVisAtt );
+//    fLContain->SetVisAttributes(G4VisAttributes::GetInvisible());
 ///////////////da attivare solo nel caso metta alluminio
     // strato mylar+alluminio
     //
