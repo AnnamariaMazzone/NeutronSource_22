@@ -89,7 +89,6 @@ PrimaryGeneratorAction::PrimaryGeneratorAction(DetectorConstruction* det)
             G4AutoLock lock(&PrimGenMutex);
             row = fileReader->GetAnEvent();
           }
-        G4int id=anEvent->GetEventID();
         G4ThreeVector Pplus, Pminus;
         G4double Eplus, Eminus, emass, pmass;
         //vertex position uniform within the absorber

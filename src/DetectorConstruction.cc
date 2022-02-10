@@ -65,8 +65,8 @@ DetectorConstruction::DetectorConstruction()
   fContainerRadius = 11.7*mm;
     fDetThickness=0.5*cm;
   fContainerLength = 200*mm;
-  fContainThickness = 0.5*mm;
-    fContainTappoThickness= 0.5*mm;
+  fContainThickness = 1.*mm;
+    fContainTappoThickness= 1.*mm;
   DefineMaterials();
     SetDetMaterial  ("Lyso");
   SetAbsorMaterial  ("Helium3");
@@ -143,7 +143,7 @@ void DetectorConstruction::DefineMaterials()
     // helium 3 material gas
     // Density at 21.1°C (70°F) ad 1 atm: 0.1650 kg/m3
          // G4double density =  1.65*mg/cm3;//0.17850*mg/cm3;//0.00049*g/cm3;
-    G4double pressure = 5*bar;
+    G4double pressure = 300*bar;
     G4double molar_constant = Avogadro*k_Boltzmann;  //from clhep
     G4double temperature = 300*kelvin;
     
@@ -157,17 +157,17 @@ void DetectorConstruction::DefineMaterials()
     G4Material* He3_30bar = new G4Material("Helium3", density, 1,kStateGas, temperature,pressure);
     He3_30bar->AddElement(He3, 100*perCent);
     
-    atomicMass = 4,002602*g/mole;
-    G4Isotope* he4 = new G4Isotope("He4",2,4,atomicMass);
-    G4Element* He4 = new G4Element("helium4","He4",1);
-    He4->AddIsotope(he4,100*perCent);
-    pressure    = 5.*bar;
-    temperature = 300*kelvin;
-    density=(atomicMass*pressure)/(temperature*molar_constant);
-    //    density     = 27.*mg/cm3;a pressione atmosferica
-    G4Material* He4_bar = new G4Material("Helium4", density, ncomponents=1,
-                                         kStateGas,temperature,pressure);
-    He4_bar->AddElement(He4, 100*perCent);
+//    atomicMass = 4,002602*g/mole;
+//    G4Isotope* he4 = new G4Isotope("He4",2,4,atomicMass);
+//    G4Element* He4 = new G4Element("helium4","He4",1);
+//    He4->AddIsotope(he4,100*perCent);
+//    pressure    = 5.*bar;
+//    temperature = 300*kelvin;
+//    density=(atomicMass*pressure)/(temperature*molar_constant);
+//    //    density     = 27.*mg/cm3;a pressione atmosferica
+//    G4Material* He4_bar = new G4Material("Helium4", density, ncomponents=1,
+//                                         kStateGas,temperature,pressure);
+//    He4_bar->AddElement(He4, 100*perCent);
     
     atomicMass = 15.99* g/mole;//massa molare)
     density=(atomicMass*pressure)/(temperature*molar_constant);
@@ -201,7 +201,7 @@ void DetectorConstruction::DefineMaterials()
     Sci->AddElement(H, natoms=19);
     
 //    G4Material* PET = G4NistManager::Instance()->FindOrBuildMaterial("G4_MYLAR");
-//    
+//
 //    G4Material* Kapton = G4NistManager::Instance()->FindOrBuildMaterial("G4_KAPTON");
     
     //Epoxy resin (C11H12O3)
@@ -301,7 +301,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
                       ScreenRadius, ScreenRadius+fDetThickness,        // inner & outer radius
                                         0.0 * deg, 360.0 *deg,  // segment angles phi
                                         0.0 * deg, 180.0 *deg);
-    
+
     fLDet = new G4LogicalVolume(screenC1, fDetMaterial , "ScreenLV");
 
     new G4PVPlacement(0, G4ThreeVector(),
@@ -310,8 +310,30 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
     screenVisAtt -> SetForceWireframe();
     fLDet->SetVisAttributes( screenVisAtt );
 //    fLDet->SetVisAttributes( G4VisAttributes::GetInvisible() );
-   
-   
+ 
+//    //il cilindro rivelatore è sostituito con due piani
+//    G4double screenDimy=fDetThickness;
+//    G4double screenDimx=40*cm;
+//
+//    G4double distanza_det=10*cm;
+//   G4Box* screenC1 = new G4Box("Screen1",                                    //name
+//                                    0.5*screenDimx,0.5*screenDimy,0.5*screenDimz);
+//    G4Box* screenC2 = new G4Box("Screen2",                                    //name
+//                                    0.5*screenDimx,0.5*screenDimy,0.5*screenDimz);
+//    G4ThreeVector TransScreen(0, distanza_det+screenDimy, 0);
+//    G4RotationMatrix RotScreen(0,0,0);
+//    G4Transform3D trScrenn(RotScreen, TransScreen);
+//    G4UnionSolid* screen=new G4UnionSolid("screen_tot", screenC1, screenC2, trScrenn);
+//    fLDet = new G4LogicalVolume(screen, fDetMaterial , "ScreenLV");
+////    G4RotationMatrix *RotScreentot= new G4RotationMatrix(0,90,0);
+//
+//        new G4PVPlacement(0,-TransScreen/2.,
+//                          fLDet, "Screen", lWorld, false, 0, 0);
+//        G4VisAttributes* screenVisAtt = new G4VisAttributes( G4Colour(0,0,1) );
+//        screenVisAtt -> SetForceSolid();
+//        fLDet->SetVisAttributes( screenVisAtt );
+//        fLDet->SetVisAttributes( G4VisAttributes::GetInvisible() );
+//
     
   // Container
   //
@@ -358,7 +380,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
 ///////////////da attivare solo nel caso metta alluminio
     // strato mylar+alluminio
     //
-    rmax=fContainerRadius-fContainTappoThickness;
+    rmax=fContainerRadius-fContainThickness;
     rmax_tappo=fContainerRadius-fContainTappoThickness;
     G4Tubs*
     sContainM_parete = new G4Tubs("ContainerM_p",                            //name
@@ -382,21 +404,21 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
 
       fLLayer = new G4LogicalVolume(sContainM,            //shape
                          fLayerMaterial,               //material
-                         fLayerMaterial->GetName());   //name
+                         "layer_1");   //name
 
              new G4PVPlacement(0,                        //no rotation
                          G4ThreeVector(),                //at (0,0,0)
                          fLLayer,                      //logical volume
-                         fLayerMaterial->GetName(),    //name
+                         "layer_1",    //name
                          fLContain,                         //mother  volume
                          false,                          //no boolean operation
                          0,true);
-    fLLayer->SetVisAttributes(G4VisAttributes::GetInvisible());
-//    G4VisAttributes* layerVisAtt = new G4VisAttributes( G4Colour(1,1,1) );
-//    layerVisAtt -> SetForceSolid();
-//        fLLayer->SetVisAttributes( layerVisAtt );
-    G4double spessoreLayerMylar=0.025*mm;
-    rmax=fContainerRadius-fContainTappoThickness-spessoreLayerMylar;
+//    fLLayer->SetVisAttributes(G4VisAttributes::GetInvisible());
+    G4VisAttributes* layerVisAtt = new G4VisAttributes( G4Colour(1,1,1) );
+    layerVisAtt -> SetForceSolid();
+        fLLayer->SetVisAttributes( layerVisAtt );
+    G4double spessoreLayerMylar=0.025*mm;//25 micron di mylar
+    rmax=fContainerRadius-fContainThickness-spessoreLayerMylar;
         rmax_tappo=fContainerRadius-fContainTappoThickness-spessoreLayerMylar;
         G4Tubs*
         sContainAl_parete = new G4Tubs("ContainerAl_p",                            //name
@@ -418,14 +440,17 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
           G4UnionSolid* sContainAl_parz =new G4UnionSolid("sContainAl_parz", sContainAl_parete, sContainAl_tappo, tr1Al);
           G4UnionSolid* sContainAl =new G4UnionSolid("sContainAl", sContainAl_parz, sContainAl_tappo, tr2Al);
       G4Material* Aluminium =G4NistManager::Instance()->FindOrBuildMaterial("G4_Al");
+    G4Material* Vacuum =
+    new G4Material("Galactic", 1, 1.01*g/mole, universe_mean_density,
+    kStateGas, 2.73*kelvin, 3.e-18*pascal);
       G4LogicalVolume* fLLayerAL = new G4LogicalVolume(sContainAl,            //shape
-                             Aluminium,               //material
-                             Aluminium->GetName());   //name
+                                                       Vacuum,               //material
+                             "layer_2");   //name
 
                  new G4PVPlacement(0,                        //no rotation
                              G4ThreeVector(),                //at (0,0,0)
                              fLLayerAL,                      //logical volume
-                             fLayerMaterial->GetName(),    //name
+                                   "layer_2",    //name
                              fLLayer,                         //mother  volume
                              false,                          //no boolean operation
                              0,true);
