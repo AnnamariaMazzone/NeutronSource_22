@@ -58,7 +58,7 @@ TrackingAction::TrackingAction(EventAction* event)
 void TrackingAction::PreUserTrackingAction(const G4Track* track)
 {  
   //count secondary particles
-  if (track->GetTrackID() == 1) return;
+//  if (track->GetTrackID() == 1) return;
   
   Run* run = static_cast<Run*>(
         G4RunManager::GetRunManager()->GetNonConstCurrentRun());

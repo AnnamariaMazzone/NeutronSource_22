@@ -51,6 +51,7 @@
 #include "G4AutoLock.hh"
 #include "FileReader.hh"
 #include <vector>
+#include <G4INCLRandom.hh>
 G4int dim=1000000;
 namespace { G4Mutex PrimGenMutex = G4MUTEX_INITIALIZER; }
 FileReader* PrimaryGeneratorAction::fileReader = 0;
@@ -63,7 +64,6 @@ PrimaryGeneratorAction::PrimaryGeneratorAction(DetectorConstruction* det)
     if( !fileReader ) fileReader = new FileReader(fileName);
     G4int n_particle = 1;
     fParticleGun  = new G4ParticleGun(n_particle);
-    
     fParticleGun->SetParticleEnergy(0*eV);
     fParticleGun->SetParticlePosition(G4ThreeVector(0.,0.,0.));
     fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,1.));
@@ -107,6 +107,7 @@ PrimaryGeneratorAction::PrimaryGeneratorAction(DetectorConstruction* det)
             G4double ux = R_rnd*std::cos(phi),
             uy = R_rnd*std::sin(phi);
 //            fParticleGun->SetParticlePosition(G4ThreeVector(ux,uy,uz));
+            
         }
         else //se sono nelle calotte
         {
@@ -139,8 +140,12 @@ PrimaryGeneratorAction::PrimaryGeneratorAction(DetectorConstruction* det)
         Pplus=G4ThreeVector(vx1,vy1,vz1);
 //         Pplus=G4ThreeVector(-1,0,0);
         fParticleGun->SetParticleMomentumDirection(Pplus);
+/////*******************************************************************
+//        G4INCL::ThreeVector u(G4INCL::Random::gaussVector(0.2));
+//        G4ThreeVector d(u.getX(),u.getY(),u.getZ());
+//        fParticleGun->SetParticlePosition(d);
         fParticleGun->GeneratePrimaryVertex(anEvent);
-        
+        ///*******************************************************************
         G4ParticleDefinition* particle
         = G4ParticleTable::GetParticleTable()->FindParticle("e-");
         
@@ -158,6 +163,11 @@ PrimaryGeneratorAction::PrimaryGeneratorAction(DetectorConstruction* det)
 //        Pminus=G4RandomDirection();
 //        Pminus=G4ThreeVector(1,0,0);
         fParticleGun->SetParticleMomentumDirection(Pminus);
+//        ///*******************************************************************
+//                G4INCL::ThreeVector u2(G4INCL::Random::gaussVector(0.2));
+//                G4ThreeVector d2(u2.getX(),u2.getY(),u2.getZ());
+//                fParticleGun->SetParticlePosition(d2);
+        ///*******************************************************************
         fParticleGun->GeneratePrimaryVertex(anEvent);
         
               //calcolo massa invariante
