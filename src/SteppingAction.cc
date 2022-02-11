@@ -109,16 +109,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
             //si deve salvare energia e momento della prima
             return;
         }
-//        if (G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID() != saved_eventID [index]){
-//            saved_eventID[index]= G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID();
-//            mass_saved[index] = particle->GetPDGMass();
-//            E_saved[index]=aStep->GetPreStepPoint()->GetKineticEnergy();
-//            P_saved[index]=aStep->GetPreStepPoint()->GetMomentumDirection();
-//            x_saved[index]=aStep->GetPreStepPoint()->GetPosition().x();
-//            y_saved[index]=aStep->GetPreStepPoint()->GetPosition().y();
-//            z_saved[index]=aStep->GetPreStepPoint()->GetPosition().z();
-//            return;
-//        }
+
         //si prende energia e momento della seconda E CALCOLA MI e rimette a 99999 eventid
         G4double energy = aStep->GetPreStepPoint()->GetKineticEnergy();
         G4double mass = particle->GetPDGMass();
