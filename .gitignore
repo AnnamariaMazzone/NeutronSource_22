@@ -1,0 +1,9 @@
+build/
+Debug/
+Release/
+CMakeFiles/
+CMakeScripts/
+NeutronSource_22.build/
+NeutronSource_22.xcodeproj
+
+
