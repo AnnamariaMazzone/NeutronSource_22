@@ -129,7 +129,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
         analysisManager->FillH1(16,angleE);
         //        //prendo la posizione sul det
         //        G4ThreeVector pos = aStep->GetPreStepPoint()->GetPosition();
-        G4String nomefile="Plot1_IPC_he300bar";
+        G4String nomefile="IPC_cil20_nomsc";
         G4ThreeVector pos = aStep->GetPreStepPoint()->GetPosition();
         G4double Y=0;
         G4double em, ep , x,y,z, x1,y1,z1;

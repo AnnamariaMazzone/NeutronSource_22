@@ -143,7 +143,7 @@ void DetectorConstruction::DefineMaterials()
     // helium 3 material gas
     // Density at 21.1°C (70°F) ad 1 atm: 0.1650 kg/m3
          // G4double density =  1.65*mg/cm3;//0.17850*mg/cm3;//0.00049*g/cm3;
-    G4double pressure = 300*bar;
+    G4double pressure = 5*bar;
     G4double molar_constant = Avogadro*k_Boltzmann;  //from clhep
     G4double temperature = 300*kelvin;
     
@@ -272,7 +272,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
 //    G4double AbsorRadiusTappo = fContainerRadius-fContainTappoThickness;//fAbsorRadius + fContainThickness;
     G4double AbsorLength = fContainerLength;//-2*fContainThickness;//fAbsorLength + 2*fContainThickness;
     G4double screenDimz=50*cm;
-    G4double ScreenRadius = 6*cm;
+    G4double ScreenRadius = 5*cm;
   G4double WorldSizeXY = 2.*screenDimz;//;2.*2*(ScreenRadius+fDetThickness);
   G4double WorldSizeZ  = 2.*screenDimz;
   
@@ -312,29 +312,40 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
 //    fLDet->SetVisAttributes( screenVisAtt );
 //    fLDet->SetVisAttributes( G4VisAttributes::GetInvisible() );
  
-//    2)caso DUE PIANI
-    G4double screenDimy=fDetThickness;
-    G4double screenDimx=40*cm;
-    screenDimy=40*cm;
-    G4double distanza_det=10*cm;
-   G4Box* screenC1 = new G4Box("Screen1",                                    //name
-                                    0.5*screenDimx,0.5*screenDimy,0.5*screenDimz);
-    G4Box* screenC2 = new G4Box("Screen2",                                    //name
-                                    0.5*screenDimx,0.5*screenDimy,0.5*screenDimz);
-    G4ThreeVector TransScreen(0, distanza_det+screenDimy, 0);
-    G4RotationMatrix RotScreen(0,0,0);
-    G4Transform3D trScrenn(RotScreen, TransScreen);
-    G4UnionSolid* screen=new G4UnionSolid("screen_tot", screenC1, screenC2, trScrenn);
-    fLDet = new G4LogicalVolume(screen, fDetMaterial , "ScreenLV");
-//    G4RotationMatrix *RotScreentot= new G4RotationMatrix(0,90,0);
-
-        new G4PVPlacement(0,-TransScreen/2.,
+////    2)caso DUE PIANI
+//    G4double screenDimy=fDetThickness;
+//    G4double screenDimx=20*cm;
+//    screenDimz=20*cm;
+//    G4double distanza_det=10*cm;
+//   G4Box* screenC1 = new G4Box("Screen1",                                    //name
+//                                    0.5*screenDimx,0.5*screenDimy,0.5*screenDimz);
+//    G4Box* screenC2 = new G4Box("Screen2",                                    //name
+//                                    0.5*screenDimx,0.5*screenDimy,0.5*screenDimz);
+//    G4ThreeVector TransScreen(0, distanza_det+screenDimy, 0);
+//    G4RotationMatrix RotScreen(0,0,0);
+//    G4Transform3D trScrenn(RotScreen, TransScreen);
+//    G4UnionSolid* screen=new G4UnionSolid("screen_tot", screenC1, screenC2, trScrenn);
+//    fLDet = new G4LogicalVolume(screen, fDetMaterial , "ScreenLV");
+////    G4RotationMatrix *RotScreentot= new G4RotationMatrix(0,90,0);
+//
+//        new G4PVPlacement(0,-TransScreen/2.,
+//                          fLDet, "Screen", lWorld, false, 0, 0);
+//        G4VisAttributes* screenVisAtt = new G4VisAttributes( G4Colour(0,0,1) );
+//        screenVisAtt -> SetForceSolid();
+//        fLDet->SetVisAttributes( screenVisAtt );
+////        fLDet->SetVisAttributes( G4VisAttributes::GetInvisible() );
+//
+       // caso cilindro
+    double ScreenLength= 20*cm;
+        G4Tubs* screenC1 = new G4Tubs("Screen1", ScreenRadius, ScreenRadius+fDetThickness, 0.5*ScreenLength, 0., twopi);
+        fLDet = new G4LogicalVolume(screenC1, fDetMaterial , "ScreenLV");
+    
+        new G4PVPlacement(0, G4ThreeVector(),
                           fLDet, "Screen", lWorld, false, 0, 0);
         G4VisAttributes* screenVisAtt = new G4VisAttributes( G4Colour(0,0,1) );
         screenVisAtt -> SetForceSolid();
         fLDet->SetVisAttributes( screenVisAtt );
 //        fLDet->SetVisAttributes( G4VisAttributes::GetInvisible() );
-//
     
   // Container
   //

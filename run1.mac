@@ -26,7 +26,7 @@
 #
 #
 /control/alias pi 3.141592653589793
-/analysis/setFileName Plot1_X17v_he300bar 
+/analysis/setFileName IPC_cil20_nomsc 
 #/analysis/h1/set 1  100  0. 40.  MeV #protons
 #/analysis/h1/set 7  100  0. 40.  MeV #protons
 /analysis/h1/set 14  100  0 {pi} none    # Open Angle (rad)//* E gamma (MeV)
