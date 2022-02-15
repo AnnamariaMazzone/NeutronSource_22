@@ -3,3 +3,11 @@ e_0.347_EM.txt
 e_0.347_P_17.0_26.0.txt
 e_0.347_S+_17.0_0.86.txt
 e_0.347_V_17.0_0.00256.txt
+
+build/
+Debug/
+NeutronSource_22.build/
+NeutronSource_22.xcodeproj/
+Release/
+
+
