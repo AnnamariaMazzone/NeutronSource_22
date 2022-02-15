@@ -1,0 +1,38 @@
+#
+# Macro file for "AmBe.cc"
+#
+#/control/execute vis.mac
+/control/verbose 2
+#/tracking/verbose 2
+/run/verbose 1
+#
+/testhadr/det/setDetMat Galactic
+/testhadr/det/setAbsorMat Galactic
+/testhadr/det/setContMat CarbonFiber
+/testhadr/det/setLayerMat Mylar
+
+/testhadr/det/setContTappoThick  0.6 mm  #1.4 mm
+/testhadr/det/setContThick  0.6 mm  #1.4 mm
+/testhadr/det/setContRadius 12.7 mm #3.81 cm
+/testhadr/det/setContLength 1.46 cm # 4-2*1.27
+
+#/testhadr/det/setLayerThick 0.06 mm  al momento non è usato
+/testhadr/det/setDetThick  2 cm  
+
+#
+/run/initialize
+#
+#/process/list
+#
+#
+/control/alias pi 3.141592653589793
+/analysis/setFileName Plot1_X17v_he300bar 
+#/analysis/h1/set 1  100  0. 40.  MeV #protons
+#/analysis/h1/set 7  100  0. 40.  MeV #protons
+/analysis/h1/set 14  100  0 {pi} none    # Open Angle (rad)//* E gamma (MeV)
+/analysis/h1/set 15  100  0. 20.  MeV #InvMass
+/analysis/h1/set 16  100  0 {pi} none    # Open Angle (rad)//* E gamma (MeV)
+/analysis/h1/set 17  100  0. 20.  MeV #InvMass
+/run/printProgress 100000
+#
+/run/beamOn 1000000
